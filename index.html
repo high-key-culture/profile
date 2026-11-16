@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>하이키컬처 홈페이지</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+KR:wght@300;400;500;600&family=Jura:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: 로고의 노란 사다리꼴(영사 빛줄기)을 화면 전체의 모티프로 쓰고,
+   굵은 한글 헤드라인을 중심에 둔다. 흰 종이 + 잉크 + 키라이트 옐로, 프로세스 구간만 암전. */
+:root{
+  color-scheme: light;
+  --paper:#FBFAF4;
+  --paper-2:#F1EFE6;
+  --ink:#141412;
+  --gray:#77766F;
+  --line:#D9D6C9;
+  --key:#FFEC45;
+  --dark:#151513;
+  --dark-2:#22221F;
+  --on-dark:#F4F2E8;
+  --on-dark-dim:#A9A79C;
+  --f-display:"Black Han Sans","IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --f-latin:"Jura","IBM Plex Sans KR",sans-serif;
+  --f-body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --gutter:clamp(18px,4.5vw,64px);
+  --max:1240px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.7;word-break:keep-all;overflow-wrap:anywhere;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.dark :focus-visible{outline-color:var(--key)}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;line-height:1.08;margin:0;text-wrap:balance;letter-spacing:-.01em}
+p{margin:0}
+.mono{font-family:var(--f-mono);font-size:12.5px;letter-spacing:.06em;text-transform:uppercase}
+.hl{background:linear-gradient(transparent 58%,var(--key) 58%);padding:0 .08em}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:20px;height:68px}
+.nav img{height:38px;width:auto}
+.nav ul{display:flex;gap:clamp(14px,2.4vw,34px);list-style:none;margin:0;padding:0;font-size:15px;font-weight:500}
+.nav a{text-decoration:none;padding:6px 0;border-bottom:2px solid transparent}
+.nav a:hover{border-bottom-color:var(--ink)}
+.nav .cta{background:var(--ink);color:var(--paper);padding:9px 18px;border:0}
+.nav .cta:hover{background:var(--key);color:var(--ink)}
+@media (max-width:820px){.nav li.opt{display:none}}
+@media (max-width:480px){.nav img{height:30px}.nav ul{font-size:14px;gap:12px}}
+
+/* HERO */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--ink)}
+.beam{position:absolute;top:0;right:-4%;width:min(62vw,820px);height:100%;background:var(--key);clip-path:polygon(0 0,100% 0,64% 100%,36% 100%);z-index:0}
+.hero .wrap{position:relative;z-index:1;padding-top:clamp(44px,7vw,96px);padding-bottom:clamp(40px,6vw,80px);display:grid;gap:clamp(28px,4vw,48px)}
+.hero .tag{display:flex;flex-wrap:wrap;gap:8px 18px;color:var(--ink)}
+.hero h1{font-size:clamp(54px,12.2vw,176px);line-height:.98}
+.hero h1 span{display:block}
+.hero h1 .out{-webkit-text-stroke:2px var(--ink);color:transparent}
+@supports not (-webkit-text-stroke:2px #000){.hero h1 .out{color:var(--gray)}}
+.hero .lede{display:grid;grid-template-columns:minmax(0,34em) auto;gap:24px 40px;align-items:end;justify-content:space-between}
+.hero .lede p{font-size:clamp(17px,1.5vw,20px)}
+.hero .en{font-family:var(--f-latin);font-weight:300;font-size:clamp(18px,2vw,26px);letter-spacing:.04em;margin-bottom:10px}
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-block;text-decoration:none;font-weight:600;padding:14px 26px;border:2px solid var(--ink);background:var(--ink);color:var(--paper)}
+.btn:hover{background:var(--paper);color:var(--ink)}
+.btn.ghost{background:var(--paper);color:var(--ink)}
+.btn.ghost:hover{background:var(--ink);color:var(--paper)}
+@media (max-width:760px){.hero .lede{grid-template-columns:1fr}.beam{width:92vw;right:-30%;opacity:.9}}
+
+/* MARQUEE */
+.marq{background:var(--ink);color:var(--paper);overflow:hidden;white-space:nowrap;padding:14px 0;font-family:var(--f-latin);font-size:clamp(16px,1.8vw,22px);letter-spacing:.18em}
+.marq div{display:inline-block;animation:slide 38s linear infinite}
+.marq b{color:var(--key);font-weight:400;margin:0 1.1em}
+@keyframes slide{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.marq div{animation:none}html{scroll-behavior:auto}}
+
+/* SECTIONS */
+section{padding:clamp(64px,9vw,128px) 0}
+.sec-head{display:grid;gap:14px;margin-bottom:clamp(32px,5vw,64px)}
+.sec-head .mono{color:var(--gray)}
+.sec-head h2{font-size:clamp(38px,6.4vw,84px)}
+.sec-head p{max-width:36em;font-size:clamp(17px,1.5vw,20px)}
+
+/* ABOUT */
+.about-grid .body{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,5vw,72px);font-size:clamp(18px,1.7vw,22px);line-height:1.75;border-top:2px solid var(--ink);padding-top:28px}
+.facts{display:grid;border-top:2px solid var(--ink)}
+.fact{display:grid;grid-template-columns:auto 1fr;gap:6px 22px;align-items:baseline;padding:20px 0;border-bottom:1px solid var(--line)}
+.fact .n{font-family:var(--f-display);font-size:clamp(40px,5vw,64px);line-height:1;font-variant-numeric:tabular-nums;min-width:3.4em}
+.fact .n small{font-size:.42em;margin-left:.1em}
+.fact .t{font-weight:600}
+.fact .s{grid-column:2;color:var(--gray);font-size:15px}
+@media (max-width:860px){.about-grid .body{grid-template-columns:1fr}}
+
+/* SERVICES */
+.svc{background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.svc-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:2px solid var(--ink);border-left:1px solid var(--line)}
+.svc-item{position:relative;padding:28px 26px 34px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);display:grid;gap:10px;align-content:start;background:var(--paper);overflow:hidden;transition:background .2s}
+.svc-item::before{content:"";position:absolute;top:0;right:22px;width:64px;height:40px;background:var(--key);clip-path:polygon(0 0,100% 0,68% 100%,32% 100%);transition:height .25s}
+.svc-item:hover::before{height:100%}
+.svc-item > *{position:relative}
+.svc-item .en{font-family:var(--f-latin);font-size:22px;letter-spacing:.08em;color:var(--gray)}
+.svc-item h3{font-size:clamp(30px,3.2vw,42px)}
+.svc-item .k{font-weight:600}
+.svc-item p{font-size:15.5px;color:#3b3a35}
+@media (max-width:900px){.svc-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.svc-list{grid-template-columns:1fr}}
+
+/* PROCESS (dark) */
+.dark{background:var(--dark);color:var(--on-dark);position:relative;overflow:hidden}
+.dark .sec-head .mono{color:var(--key)}
+.dark .sec-head p{color:var(--on-dark-dim)}
+.dark h2 em{font-style:normal;color:var(--key)}
+.steps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;border-top:1px solid #45443e}
+.step{padding:26px 20px 8px 0;border-right:1px solid #33322e;display:grid;gap:14px;align-content:start;position:relative}
+.step:last-child{border-right:0}
+.step + .step{padding-left:20px}
+.step::before{content:"";position:absolute;top:-6px;left:0;width:11px;height:11px;background:var(--key);border-radius:50%}
+.step + .step::before{left:20px}
+.step .mono{color:var(--on-dark-dim)}
+.step h3{font-size:clamp(26px,2.6vw,36px);color:var(--on-dark)}
+.step.final h3{color:var(--key)}
+.step ul{list-style:none;margin:0;padding:0;display:grid;gap:8px;font-size:15px}
+.step li{border:1px solid #45443e;padding:7px 12px;border-radius:999px;justify-self:start}
+@media (max-width:980px){.steps{grid-template-columns:1fr;border-top:0;border-left:1px solid #45443e}
+ .step,.step + .step{padding:0 0 30px 26px;border-right:0}
+ .step::before,.step + .step::before{left:-6px;top:10px}}
+
+/* WORK */
+.years{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;border-top:2px solid var(--ink)}
+.year{padding:22px 18px 10px 0;border-right:1px solid var(--line);display:grid;gap:22px;align-content:start}
+.year + .year{padding-left:18px}
+.year:last-child{border-right:0}
+.year .y{font-family:var(--f-display);font-size:clamp(40px,4.4vw,60px);line-height:1;font-variant-numeric:tabular-nums}
+.job{display:grid;gap:4px}
+.job b{font-weight:600;line-height:1.45}
+.job span{font-size:14.5px;color:var(--gray);line-height:1.55}
+.job .num{color:var(--ink);background:var(--key);padding:0 .3em;font-weight:500}
+.etc{margin-top:36px;padding:24px 26px;background:var(--paper-2);border-left:6px solid var(--key);font-size:16px;max-width:none}
+.etc b{font-weight:600}
+@media (max-width:1080px){.years{grid-template-columns:repeat(2,minmax(0,1fr))}.year{border-bottom:1px solid var(--line);padding-bottom:26px}.year:nth-child(2n){border-right:0}}
+@media (max-width:560px){.years{grid-template-columns:1fr}.year,.year + .year{padding-left:0;border-right:0}}
+
+/* DESIGN */
+.gallery{display:grid;grid-template-columns:minmax(0,.62fr) minmax(0,1.38fr);gap:22px}
+.shot{margin:0;display:grid;gap:12px;align-content:start}
+.shot .frame{background:#fff;border:1px solid var(--line);padding:14px}
+.shot img{width:100%}
+.shot figcaption{display:grid;gap:2px;font-size:15px}
+.shot figcaption b{font-weight:600}
+.shot figcaption span{color:var(--gray);font-size:14px}
+.gallery .wide{grid-column:1 / -1}
+.col{display:grid;gap:22px;align-content:start}
+@media (max-width:760px){.gallery{grid-template-columns:1fr}}
+
+/* NETWORK */
+.net{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;border-top:2px solid var(--ink);padding-top:26px}
+.net div{display:grid;gap:8px;align-content:start}
+.net .lg{display:flex;align-items:center;justify-content:center;background:#F8F8F8;border:1px solid var(--line);height:150px;padding:18px;margin-bottom:10px}
+.net .lg img{display:block;margin:0 auto;width:min(72%,230px);height:auto;max-height:100%;object-fit:contain;mix-blend-mode:multiply}
+.net h3{font-family:var(--f-body);font-weight:600;font-size:21px;line-height:1.3}
+.net p{font-size:15px;color:var(--gray)}
+@media (max-width:760px){.net{grid-template-columns:1fr}}
+
+/* CONTACT */
+.contact{background:var(--key);border-top:1px solid var(--ink)}
+.contact .sec-head .mono{color:var(--ink)}
+.c-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(28px,5vw,72px);align-items:start}
+.info{display:grid;gap:0;border-top:2px solid var(--ink)}
+.info div{padding:18px 0;border-bottom:1px solid var(--ink);display:grid;gap:2px}
+.info .mono{opacity:.7}
+.info a,.info span.v{font-size:clamp(19px,2vw,24px);font-weight:600;text-decoration:none}
+.info a:hover{text-decoration:underline}
+form{background:var(--paper);border:2px solid var(--ink);padding:clamp(20px,3vw,34px);display:grid;gap:18px}
+form h3{font-size:28px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:560px){.row{grid-template-columns:1fr}}
+label{display:grid;gap:6px;font-size:14px;font-weight:600}
+input[type=text],textarea{font:inherit;font-size:16px;font-weight:400;padding:11px 12px;border:1px solid var(--ink);background:#fff;color:var(--ink);border-radius:0;width:100%}
+textarea{min-height:110px;resize:vertical}
+fieldset{border:0;padding:0;margin:0;display:grid;gap:8px}
+legend{font-size:14px;font-weight:600;padding:0;margin-bottom:8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips label{display:inline-flex;align-items:center;font-weight:500;font-size:15px;border:1px solid var(--ink);padding:7px 14px;border-radius:999px;cursor:pointer;background:#fff}
+.chips input{position:absolute;opacity:0;pointer-events:none}
+.chips label:has(input:checked){background:var(--ink);color:var(--paper)}
+.chips label:has(input:focus-visible){outline:3px solid var(--ink);outline-offset:3px}
+.send{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.send button{font:inherit;font-weight:600;cursor:pointer;padding:13px 24px;border:2px solid var(--ink);background:var(--ink);color:var(--paper)}
+.send button:hover{background:var(--key);color:var(--ink)}
+#status{font-size:14.5px}
+#preview{font-family:var(--f-mono);font-size:13px;line-height:1.6;white-space:pre-wrap;background:var(--paper-2);border:1px dashed var(--gray);padding:14px;margin:0;display:none;user-select:all}
+@media (max-width:860px){.c-grid{grid-template-columns:1fr}}
+
+/* FOOTER */
+footer{background:var(--dark);color:var(--on-dark-dim);padding:44px 0;font-size:14px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:20px 40px;justify-content:space-between;align-items:center}
+footer img{height:44px;width:auto}
+footer p{line-height:1.7}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a href="#top" aria-label="하이키컬처 처음으로"><img src="img/logo.png" alt="High-Key Culture" width="900" height="234"></a>
+    <nav aria-label="주요 메뉴">
+      <ul>
+        <li class="opt"><a href="#about">소개</a></li>
+        <li><a href="#services">서비스</a></li>
+        <li class="opt"><a href="#process">프로세스</a></li>
+        <li><a href="#work">실적</a></li>
+        <li><a class="cta" href="#contact">문의</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+<div class="hero">
+  <div class="beam" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="tag mono"><span>Busan, Korea</span><span>Since 2022.08</span><span>D-Cinema · Subtitling · Editorial Design</span></div>
+    <h1><span>개막부터</span><span>폐막까지,</span><span class="out">원스톱.</span></h1>
+    <div class="lede">
+      <div>
+        <p class="en">Event Agency for Film Festival &amp; Screening</p>
+        <p>하이키컬처는 영화제와 상영회를 위한 종합 대행업체입니다. 파일 수급부터 자막 제작, DCP 패킹, 영사까지 디지털 시네마의 전 과정을 맡습니다.</p>
+      </div>
+      <div class="btns">
+        <a class="btn" href="#contact">업무 의뢰하기</a>
+        <a class="btn ghost" href="#work">실적 보기</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="marq" aria-hidden="true"><div>
+  PRINT TRAFFIC<b>▼</b>SUBTITLING<b>▼</b>DCP PACKING<b>▼</b>VALIDATION<b>▼</b>D-CINEMA PROJECTION<b>▼</b>CONSULTING<b>▼</b>EDITORIAL DESIGN<b>▼</b>PRINT TRAFFIC<b>▼</b>SUBTITLING<b>▼</b>DCP PACKING<b>▼</b>VALIDATION<b>▼</b>D-CINEMA PROJECTION<b>▼</b>CONSULTING<b>▼</b>EDITORIAL DESIGN<b>▼</b>
+</div></div>
+
+<section id="about">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="mono">About</span>
+      <h2>하이키컬처는,</h2>
+    </div>
+    <div class="about-grid">
+      <div class="body">
+        <p>영화제 및 영화 상영회 전문 업체로서 파일 수급부터 자막 제작, DCP 패킹, 영사에 이르기까지 디지털 시네마의 전반 업무를 대행하고 있습니다.</p>
+        <p>또, 행사 포스터 및 티켓 카달로그 등 인쇄 홍보물의 제작과 블루레이를 포함한 각종 굿즈 제작 등 <span class="hl">행사의 개막부터 폐막까지 필요한 모든 서비스</span>를 원스톱으로 제공합니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="services" class="svc">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="mono">Services</span>
+      <h2>여섯 가지 일을<br>한 팀이 합니다.</h2>
+      <p>수급에서 영사까지 담당이 바뀌지 않으니, 문제가 생겨도 원인을 찾는 시간이 짧습니다.</p>
+    </div>
+    <div class="svc-list">
+      <article class="svc-item"><span class="en">Print</span><h3>수급</h3><p class="k">대용량 영상 파일 취급</p><p>상영본을 받아 기술정보와 재생 상태를 확인하고, 수급 원본을 아카이빙합니다.</p></article>
+      <article class="svc-item"><span class="en">Packing</span><h3>DCP 제작</h3><p class="k">DCP 제작용 서버 보유</p><p>국제 DCI 표준규격에 맞춰 트랜스코딩과 패킹을 진행하고 유효성을 검증합니다.</p></article>
+      <article class="svc-item"><span class="en">Projection</span><h3>영사</h3><p class="k">전 제조사 장비 운용 가능</p><p>영사 환경 조성과 관리, 관별 영사정보 점검, 볼륨 레벨 설정, 기술 시사까지 맡습니다.</p></article>
+      <article class="svc-item"><span class="en">Subtitling</span><h3>자막 제작</h3><p class="k">가이드라인 준수</p><p>상영작 자막을 제작하고 QC 단계에서 화면과 함께 다시 확인합니다.</p></article>
+      <article class="svc-item"><span class="en">Design</span><h3>디자인</h3><p class="k">포스터 / 카달로그 / 배너 등</p><p>인쇄 홍보물과 온라인 홍보물, E-뉴스레터, 블루레이 타이틀과 굿즈를 제작합니다.</p></article>
+      <article class="svc-item"><span class="en">Consulting</span><h3>컨설팅</h3><p class="k">영화제 스태프 교육</p><p>DCP 수급과 제작, 영사 운영을 처음 맡는 스태프를 현장 기준으로 교육합니다.</p></article>
+    </div>
+  </div>
+</section>
+
+<section id="process" class="dark">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="mono">Digital Cinema Process</span>
+      <h2>디지털 시네마 프로세스</h2>
+      <p>고품질 상영을 위해 국제 DCI 표준규격을 따른 DCP를 제작하고, 철저한 검수 과정을 거쳐 영사 무사고를 실현합니다.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><span class="mono">Step 01</span><h3>수급 및<br>수급본 확인</h3><ul><li>기술정보 확인</li><li>재생 확인</li><li>수급 원본 아카이빙</li></ul></div>
+      <div class="step"><span class="mono">Step 02</span><h3>1차 QC</h3><ul><li>비디오/오디오 확인</li><li>자막 확인</li></ul></div>
+      <div class="step"><span class="mono">Step 03</span><h3>2차 QC</h3><ul><li>서버 재생 확인</li><li>기타 이슈 확인</li></ul></div>
+      <div class="step"><span class="mono">Step 04</span><h3>3차 QC</h3><ul><li>관별 영사정보 점검</li><li>볼륨 레벨 설정</li><li>기술 시사 가능</li></ul></div>
+      <div class="step final"><span class="mono">Step 05</span><h3>본 상영</h3><ul><li>스토리지 관리</li><li>장비 상시 점검</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="mono">Track Record</span>
+      <h2>2022년 8월부터</h2>
+      <p>현재까지 하이키컬처의 대표 실적사항입니다.</p>
+    </div>
+    <div class="years">
+      <div class="year"><span class="y">2022</span>
+        <div class="job"><b>제27회 부산국제영화제<br>영사 및 D-cinema 지원</b><span>DCP 수급, 제작 등 스태프 교육 · 영사 환경 조성 및 관리</span></div>
+        <div class="job"><b>제24회 부산독립영화제 영사 지원</b><span>DCP 수급 및 상영본 검수</span></div>
+      </div>
+      <div class="year"><span class="y">2023</span>
+        <div class="job"><b>제28회 부산국제영화제<br>영사 및 D-cinema 지원</b><span>DCP 수급, 제작 등 스태프 교육 · 영사 환경 조성 및 관리</span></div>
+        <div class="job"><b>제25회 부산독립영화제 영사 지원</b><span>DCP 수급 및 상영본 검수</span></div>
+        <div class="job"><b>에듀테인먼트 OTT 숏버스<br>지식 콘텐츠 제작</b><span>콘텐츠 디자인 · 카달로그 제작 및 인쇄</span></div>
+      </div>
+      <div class="year"><span class="y">2024</span>
+        <div class="job"><b>제1회 장생포애니영화제 영사 지원</b></div>
+        <div class="job"><b>제29회 부산국제영화제<br>영사 및 D-cinema 지원</b></div>
+        <div class="job"><b>제26회 부산독립영화제 영사 지원</b></div>
+        <div class="job"><b>제6회 부산해운대국제동물영화제 DCP 제작</b></div>
+      </div>
+      <div class="year"><span class="y">2025</span>
+        <div class="job"><b>2025 교향악축제 중계 및 영사</b><span>예술의전당 ↔ 영화의전당 실시간 중계 및 녹화 영사</span></div>
+        <div class="job"><b>제30회 부산국제영화제<br>영사 및 D-cinema 지원</b></div>
+        <div class="job"><b>2025 커뮤니티비프 상영본 및 자막 제작</b></div>
+        <div class="job"><b>제27회 부산독립영화제 영사 지원</b></div>
+        <div class="job"><b>제7회 부산해운대국제동물영화제 DCP 제작</b></div>
+      </div>
+      <div class="year"><span class="y">2026</span>
+        <div class="job"><b>2026 코리아국제스트리밍페스티벌<br>상영본 및 자막 제작</b></div>
+        <div class="job"><b>제9회 국제해양영화제 영사 지원</b></div>
+        <div class="job"><b>제5회 하나뿐인지구영상제 영사 지원</b></div>
+        <div class="job"><b>제31회 부산국제영화제<br>영사 및 D-cinema 지원</b></div>
+        <div class="job"><b>2026 커뮤니티비프 상영본 및 자막 제작</b></div>
+        <div class="job"><b>제28회 부산독립영화제 영사 지원</b></div>
+        <div class="job"><b>제8회 부산해운대국제동물영화제 DCP 제작</b></div>
+      </div>
+    </div>
+    <p class="etc"><b>이 외,</b> 아시아대학생영화제 행사 총괄(초청 및 홍보/디자인 포함), 해운대비치시네마 영사, 부산콘텐츠마켓 [부산ZONE] 카달로그 제작, 동서대학교 영화과 졸업작품 DVD 제작, 부산국제단편영화제 수상작 DVD 제작 등을 맡았습니다.</p>
+  </div>
+</section>
+
+<section id="network">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="mono">Network</span>
+      <h2>혼자 해결하지 않습니다.</h2>
+      <p>문제 상황 시에도 유연한 대처가 가능하도록 유관 업체와 효율적인 네트워크를 구성하고 있습니다.</p>
+    </div>
+    <div class="net">
+      <div><span class="lg"><img src="img/cineland.png" alt="Cine Land 로고" width="707" height="232"></span><h3>주식회사 씨네랜드</h3><p>디지털 시네마 영사 장비 업체<br>컨소시엄 구성 · 하드웨어 이슈 자문</p></div>
+      <div><span class="lg"><img src="img/funnycon.png" alt="FUNNYCON 로고" width="164" height="27"></span><h3>(주)퍼니콘</h3><p>영화 배급사 및 OTT 플랫폼사<br>2,000편 이상의 콘텐츠 보유</p></div>
+      <div><span class="lg"><img src="img/accessict.png" alt="ACCESS ICT 로고" width="196" height="38"></span><h3>(주)엑세스아이씨티</h3><p>영화/영상 분야 ICT 업체<br>자막 및 영상 처리 자문</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="mono">Contact</span>
+      <h2>가까이 계시면<br>커피 한 잔 어떠세요?</h2>
+      <p>멀리 계시더라도 전화 한 통만 주세요. 영화제 개최까지, 곤란하신 어떤 것이든 해결해 드리겠습니다.</p>
+    </div>
+    <div class="c-grid">
+      <div class="info">
+        <div><span class="mono">Tel</span><a href="tel:01020740074">010-2074-0074</a></div>
+        <div><span class="mono">E-mail</span><a href="mailto:jeong.220812@gmail.com">jeong.220812@gmail.com</a></div>
+        <div><span class="mono">Representative</span><span class="v">대표 정혜지</span></div>
+      </div>
+      <form id="inq" novalidate>
+        <h3>의뢰서 작성</h3>
+        <div class="row">
+          <label for="f-event">행사명<input type="text" id="f-event" placeholder="예: 제○회 ○○영화제"></label>
+          <label for="f-date">행사 일정<input type="text" id="f-date" placeholder="예: 2027. 5. 1. ~ 5. 5."></label>
+        </div>
+        <fieldset>
+          <legend>필요한 서비스</legend>
+          <div class="chips">
+            <label><input type="checkbox" id="s1" value="수급">수급</label>
+            <label><input type="checkbox" id="s2" value="DCP 제작">DCP 제작</label>
+            <label><input type="checkbox" id="s3" value="영사">영사</label>
+            <label><input type="checkbox" id="s4" value="자막 제작">자막 제작</label>
+            <label><input type="checkbox" id="s5" value="디자인">디자인</label>
+            <label><input type="checkbox" id="s6" value="컨설팅">컨설팅</label>
+          </div>
+        </fieldset>
+        <label for="f-msg">문의 내용<textarea id="f-msg" placeholder="상영관 수, 상영 편수, 필요한 일정 등을 적어 주세요."></textarea></label>
+        <div class="row">
+          <label for="f-name">담당자<input type="text" id="f-name" placeholder="소속 / 성함"></label>
+          <label for="f-tel">회신받을 연락처<input type="text" id="f-tel" placeholder="전화 또는 이메일"></label>
+        </div>
+        <div class="send">
+          <button type="submit">의뢰서 복사하기</button>
+          <span id="status" role="status">작성한 내용을 복사해 위 이메일로 보내 주세요.</span>
+        </div>
+        <pre id="preview" aria-label="의뢰서 미리보기"></pre>
+      </form>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <img src="img/logo-dark.png" alt="High-Key Culture" width="900" height="234">
+    <p>하이키컬처 High-key Culture · 디지털시네마 기술대행업<br>010-2074-0074 · jeong.220812@gmail.com</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var form=document.getElementById('inq'),pre=document.getElementById('preview'),st=document.getElementById('status');
+  function v(id){return document.getElementById(id).value.trim()||'-';}
+  function build(){
+    var svc=[].slice.call(form.querySelectorAll('.chips input:checked')).map(function(i){return i.value;});
+    return ['[하이키컬처 업무 의뢰]','행사명: '+v('f-event'),'행사 일정: '+v('f-date'),'필요한 서비스: '+(svc.length?svc.join(', '):'-'),'문의 내용: '+v('f-msg'),'담당자: '+v('f-name'),'회신 연락처: '+v('f-tel')].join('\n');
+  }
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var t=build();pre.textContent=t;pre.style.display='block';
+    function fail(){st.textContent='자동 복사가 되지 않았습니다. 아래 내용을 직접 선택해 복사한 뒤 이메일로 보내 주세요.';}
+    try{navigator.clipboard.writeText(t).then(function(){st.textContent='복사했습니다. jeong.220812@gmail.com 으로 붙여 넣어 보내 주세요.';},fail);}catch(err){fail();}
+  });
+})();
+</script>
+</body>
+</html>
